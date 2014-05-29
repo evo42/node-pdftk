@@ -4,7 +4,7 @@
   "description": "Wrapper for pdftk Command Line Tool",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "node test/index.js"
   },
   "repository": {
     "type": "git",
