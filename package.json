@@ -4,7 +4,7 @@
   "description": "Wrapper for pdftk Command Line Tool",
   "main": "index.js",
   "scripts": {
-    "test": "node test/index.js"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,21 @@
   "bugs": {
     "url": "https://github.com/pon/node-pdftk/issues"
   },
-  "homepage": "https://github.com/pon/node-pdftk"
+  "homepage": "https://github.com/pon/node-pdftk",
+  "dependencies": {
+      "bluebird": "^1.2.4",
+      "create-error": "^0.3.1"
+   },
+  "devDependencies": {
+    "gulp": "^3.6.2",
+    "gulp-istanbul": "^0.2.0",
+    "gulp-istanbul-enforcer": "^1.0.2",
+    "gulp-load-plugins": "^0.5.1",
+    "gulp-mocha": "^0.4.1",
+    "chai": "^1.9.1",
+    "chai-as-promised": "^4.1.1",
+    "istanbul": "^0.2.10",
+    "mocha": "^1.20.0",
+    "yargs": "^1.2.2"
+  }
 }
