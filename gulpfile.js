@@ -16,17 +16,3 @@ gulp.task('cover', function () {
   return gulp.src('src/*.js')
     .pipe(plugins.istanbul());
 });
-
-gulp.task('enforce', function () {
-  return gulp.src('.')
-    .pipe(plugins.istanbulEnforcer({
-      thresholds: {
-        statements: 100,
-        branches: 100,
-        lines: 100,
-        functions: 100
-      },
-      coverageDirectory: 'coverage',
-      rootDirectory: ''
-    }));
-});

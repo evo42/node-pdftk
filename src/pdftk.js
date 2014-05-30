@@ -7,7 +7,9 @@ var pexec       = Promise.promisify(require('child_process').exec);
  * @author - Peter Nagel
  * @date - 5/29/2014
 */
-var Pdftk = function () {};
+var Pdftk = function () {
+  return this.checkCmdExists('pdftk').done();
+};
 
 /*
  * Check if the supplied command exists in the $PATH
