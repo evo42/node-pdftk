@@ -8,7 +8,7 @@ var exec        = require('child_process').exec;
  * @param {string} - cmd to check for existence
 */
 module.exports.checkCmdExists = function(cmd, next) {
-  var checkCmd = 'type -P ' + cmd + ' &>/dev/null && echo 1 || echo 0';
+  var checkCmd = 'type ' + cmd + ' &>/dev/null && echo 1 || echo 0';
   exec(checkCmd, function (err, stdout, stderr) {
     console.log(cmd, err, stdout, stderr);
     if(stdout && stdout[0].substring(0,1) === '1') {
