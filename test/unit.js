@@ -8,6 +8,7 @@ describe('Pdftk: Unit', function () {
     describe('#checkCmdExists', function () {
       it('returns an error for a cmd that does not exist', function (done) {
         utils.checkCmdExists('asdfasdf', function (err, result) {
+          console.log(err, result);
           expect(err instanceof errors.CmdDoesNotExist).to.equal(true);
           return done();
         });
