@@ -1,6 +1,5 @@
-var Promise     = require('bluebird');
 var errors      = require('./errors');
-var pexec       = Promise.promisify(require('child_process').exec);
+var exec        = require('child_process').exec;
 
 /*
  * Check if the supplied command exists in the $PATH
@@ -8,16 +7,15 @@ var pexec       = Promise.promisify(require('child_process').exec);
  * @date - 5/29/2014
  * @param {string} - cmd to check for existence
 */
-module.exports.checkCmdExists = function(cmd) {
+module.exports.checkCmdExists = function(cmd, next) {
   var checkCmd = 'type -P ' + cmd + ' &>/dev/null && echo 1 || echo 0';
-  return pexec(checkCmd)
-    .then(function (stdout, stderr) {
-      if (stdout && stdout[0].substring(0,1) === '1') {
-        return true;
-      } else if (stdout && stdout[0].substring(0,1) === '0') {
-        throw new errors.CmdDoesNotExist();
-      } else {
-        throw new errors.CheckCmdFailed();
-      }
-    });
+  exec(checkCmd, function (err, stdout, stderr) {
+    if(stdout && stdout[0].substring(0,1) === '1') {
+      next(null, true);
+    } else if(stdout && stdout[0].substring(0,1) === '0') {
+      next(new errors.CmdDoesNotExist(), null);
+    } else {
+      next(new errors.CheckCmdFailed(), null);
+    }
+  });
 };
