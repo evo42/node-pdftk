@@ -1,30 +1,20 @@
 var chai         = require('chai');
 var expect       = chai.expect;
-var errors       = require('../src/errors');
-var utils        = require('../src/utils');
+var PdftkFactory = require('../src');
 
 describe('Pdftk: Unit', function () {
-  describe('utils', function () {
-    describe('#checkCmdExists', function () {
-      it('returns an error for a cmd that does not exist', function (done) {
-        utils.checkCmdExists('asdfasdf', function (err, result) {
-          console.log(err, result);
-          expect(err instanceof errors.CmdDoesNotExist).to.equal(true);
-          return done();
-        });
-      });
-      it('returns an error for a failed cmd check', function (done) {
-        utils.checkCmdExists('echo && alsdkjf &&', function (err, result) {
-          expect(err instanceof errors.CheckCmdFailed).to.equal(true);
+  var pdftk;
+  beforeEach(function () {
+    pdftk = new PdftkFactory();
+  });
+
+  describe('getVersion', function () {
+    it('should return a string with the version of pdftk', function (done) {
+      pdftk.getVersion()
+        .then(function (version) {
+          expect(version).to.match(/[0-9]\.[0-9][0-9]/);
           done();
         });
-      });
-      it('returns true for a command that does exist', function (done) {
-        utils.checkCmdExists('ls', function (err, result) {
-          expect(result).to.equal(true);
-          done();
-        });
-      });
     });
   });
 });

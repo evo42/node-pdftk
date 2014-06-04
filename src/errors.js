@@ -1,10 +1,12 @@
-var createError = require('create-error');
+//var createError = require('create-error');
+
+function CmdFailedError (message) {
+  this.name = 'Command Failed Error';
+  this.message = message;
+}
+CmdFailedError.prototype = Object.create(Error.prototype);
+CmdFailedError.prototype.constructor = CmdFailedError;
 
 module.exports = {
-  CheckCmdFailed: createError('CheckCmdFailed', {
-    message: 'Check for command failed unexpectedly'
-  }),
-  CmdDoesNotExist: createError('CmdDoesNotExist', {
-    message: 'Supplied command does not exist on $PATH'
-  })
+  CmdFailedError: CmdFailedError
 };
