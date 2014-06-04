@@ -52,12 +52,22 @@ Pdftk.prototype.getVersion = function () {
  */
 internals.getHandle = function (index) {
   var handle = '';
-  var numChars = (index % 26 === 0) ? index / 26 : Math.floor(index / 26) + 1;
-  for (var i = 0; i < numChars; i = i + 1) {
+  while (index > 0) {
     if (index <= 26) {
       handle = handle + String.fromCharCode(96 + index).toUpperCase();
+      index = 0;
     } else {
-      handle = handle + String.fromCharCode(96 + (i + 1)).toUpperCase();
+      //This isn't ideal but it supports 26*27*26 file handles
+      //which is most likely more than pdftk can handle
+      if (Math.floor(index / (26*27)) !== 0 && (index / (26*27) !== 1)) {
+        handle = handle + String.fromCharCode(96 +
+                Math.floor(index / (26*27))).toUpperCase();
+        index = index - (26*26);
+      }
+      var charNum = Math.floor(index / 26);
+      handle = handle + String.fromCharCode(96 +
+              charNum - (index % 26 === 0 ? 1 : 0)).toUpperCase();
+      index = index - 26*charNum + (index % 26 === 0 ? 26 : 0);
     }
   }
   return handle;
@@ -73,14 +83,13 @@ Pdftk.prototype.filesToHandles = function (files) {
   var handles = '';
   var i = 1;
   files.forEach(function (file) {
-    internals.getHandle(i);
     handles = handles +
       internals.getHandle(i) +
       '=' + file + ' ';
     i = i + 1;
   });
 
-  return handles;
+  return handles.trim();
 };
 
 module.exports = Pdftk;
