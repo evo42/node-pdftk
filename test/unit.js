@@ -17,4 +17,11 @@ describe('Pdftk: Unit', function () {
         });
     });
   });
+  describe('filesToHandles', function () {
+    it('should split a small array', function (done) {
+      var files = ['file1.pdf', 'file2.pdf', 'file3.pdf'];
+      console.log(pdftk.filesToHandles(files));
+      done();
+    });
+  });
 });

@@ -38,9 +38,49 @@ internals.runCmd = function (cmd) {
 Pdftk.prototype.getVersion = function () {
   return internals.runCmd('pdftk --version')
     .then(function (stdout) {
-      var res = stdout[0].match(/pdftk\s([0-9a-z\.]*)\s/);
+      var res = stdout[0].match(/pdftk\s([0-9.]*)\s/);
       return res[res.index];
     });
+};
+
+/*
+ * Take an arbitrary integer and construct a file
+ * handler in the form of ABC
+ * @author - Peter Nagel
+ * @date - 6/3/2014
+ * @param {number} - integer to convert
+ */
+internals.getHandle = function (index) {
+  var handle = '';
+  var numChars = (index % 26 === 0) ? index / 26 : Math.floor(index / 26) + 1;
+  for (var i = 0; i < numChars; i = i + 1) {
+    if (index <= 26) {
+      handle = handle + String.fromCharCode(96 + index).toUpperCase();
+    } else {
+      handle = handle + String.fromCharCode(96 + (i + 1)).toUpperCase();
+    }
+  }
+  return handle;
+};
+
+/*
+ * Convert an array of filenames in to a string of
+ * handles for pdftk to work with.
+ * @author - Peter Nagel
+ * @date - 6/3/2014
+ */
+Pdftk.prototype.filesToHandles = function (files) {
+  var handles = '';
+  var i = 1;
+  files.forEach(function (file) {
+    internals.getHandle(i);
+    handles = handles +
+      internals.getHandle(i) +
+      '=' + file + ' ';
+    i = i + 1;
+  });
+
+  return handles;
 };
 
 module.exports = Pdftk;
